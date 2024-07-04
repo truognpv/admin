@@ -1,14 +1,14 @@
 import { PageHeader } from '@/components/PageHeader'
 import { createFileRoute } from '@tanstack/react-router'
 
-const Index = () => {
+const ManageApi = () => {
   return (
     <div>
-      <PageHeader title="Dashboard" />
+      <PageHeader title="Manage API" />
     </div>
   )
 }
 
-export const Route = createFileRoute('/')({
-  component: Index,
+export const Route = createFileRoute('/manage-api/')({
+  component: ManageApi,
 })

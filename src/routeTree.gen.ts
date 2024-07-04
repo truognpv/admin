@@ -11,18 +11,30 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as ManageApiImport } from './routes/manage-api'
+import { Route as ManageNodeImport } from './routes/manage-node'
+import { Route as ManageKeyImport } from './routes/manage-key'
 import { Route as IndexImport } from './routes/index'
+import { Route as ManageApiIndexImport } from './routes/manage-api/index'
 
 // Create/Update Routes
 
-const ManageApiRoute = ManageApiImport.update({
-  path: '/manage-api',
+const ManageNodeRoute = ManageNodeImport.update({
+  path: '/manage-node',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ManageKeyRoute = ManageKeyImport.update({
+  path: '/manage-key',
   getParentRoute: () => rootRoute,
 } as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ManageApiIndexRoute = ManageApiIndexImport.update({
+  path: '/manage-api/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,11 +49,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/manage-api': {
-      id: '/manage-api'
+    '/manage-key': {
+      id: '/manage-key'
+      path: '/manage-key'
+      fullPath: '/manage-key'
+      preLoaderRoute: typeof ManageKeyImport
+      parentRoute: typeof rootRoute
+    }
+    '/manage-node': {
+      id: '/manage-node'
+      path: '/manage-node'
+      fullPath: '/manage-node'
+      preLoaderRoute: typeof ManageNodeImport
+      parentRoute: typeof rootRoute
+    }
+    '/manage-api/': {
+      id: '/manage-api/'
       path: '/manage-api'
       fullPath: '/manage-api'
-      preLoaderRoute: typeof ManageApiImport
+      preLoaderRoute: typeof ManageApiIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -49,7 +75,12 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ IndexRoute, ManageApiRoute })
+export const routeTree = rootRoute.addChildren({
+  IndexRoute,
+  ManageKeyRoute,
+  ManageNodeRoute,
+  ManageApiIndexRoute,
+})
 
 /* prettier-ignore-end */
 
@@ -60,14 +91,22 @@ export const routeTree = rootRoute.addChildren({ IndexRoute, ManageApiRoute })
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/manage-api"
+        "/manage-key",
+        "/manage-node",
+        "/manage-api/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/manage-api": {
-      "filePath": "manage-api.tsx"
+    "/manage-key": {
+      "filePath": "manage-key.tsx"
+    },
+    "/manage-node": {
+      "filePath": "manage-node.tsx"
+    },
+    "/manage-api/": {
+      "filePath": "manage-api/index.tsx"
     }
   }
 }
